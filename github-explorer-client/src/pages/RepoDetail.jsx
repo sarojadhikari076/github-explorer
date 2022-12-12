@@ -18,7 +18,6 @@ export default function RepoDetail() {
           'https://api.github.com/repos/greyli/helloflask'
         )
         const data = await response.json()
-        console.log(data)
 
         setRepoInfo({
           ownerName: data.owner.login,
@@ -26,8 +25,7 @@ export default function RepoDetail() {
           repoName: data.name,
           repoLink: data.html_url,
           openIssues: data.open_issues,
-          defaultBranch: data.default_branch,
-          readme: data.readme
+          defaultBranch: data.default_branch
         })
       } catch (error) {
         console.log(error)
@@ -40,14 +38,13 @@ export default function RepoDetail() {
   if (isLoading) return null
   return (
     <Container maxW="7xl" py={4} minH="85vh">
-      <Heading>{repoInfo.repoName}</Heading>
+      <Link href={repoInfo.repoLink}>
+        <Heading as="h2" size="md">
+          Repository name: {repoInfo.repoName}
+        </Heading>
+      </Link>
       <Text>
-        Full owner name:{' '}
-        <Link href={repoInfo.ownerLink}>{repoInfo.ownerName}</Link>
-      </Text>
-      <Text>
-        Repository name:{' '}
-        <Link href={repoInfo.repoLink}>{repoInfo.repoName}</Link>
+        <Link href={repoInfo.ownerLink}>Owner: {repoInfo.ownerName}</Link>
       </Text>
       <Text>Number of open issues: {repoInfo.openIssues}</Text>
       <Text>Default branch: {repoInfo.defaultBranch}</Text>
