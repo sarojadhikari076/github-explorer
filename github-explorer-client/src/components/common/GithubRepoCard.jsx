@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 export default function GithubRepoCard({
   name,
   author,
+  avatarUrl,
   stars,
   watchers,
   forks,
@@ -37,7 +38,7 @@ export default function GithubRepoCard({
         gap={2}
       >
         <Stack isInline align="center" spacing={2}>
-          <Avatar name={author} />
+          <Avatar name={author} src={avatarUrl} />
           <Link to={`/${name}`}>
             <Heading
               as="span"

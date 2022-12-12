@@ -25,6 +25,7 @@ export default function GithubRepos() {
           const id = repo.id
           const name = repo.name
           const author = repo.owner.login
+          const avatarUrl = repo.owner.avatar_url
           const stars = repo.stargazers_count
           const watchers = repo.watchers_count
           const forks = repo.forks_count
@@ -34,6 +35,7 @@ export default function GithubRepos() {
             id,
             name,
             author,
+            avatarUrl,
             stars,
             watchers,
             forks,

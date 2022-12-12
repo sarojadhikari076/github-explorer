@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, Heading } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   return (
@@ -12,9 +13,11 @@ export default function Navbar() {
       bg="gray.100"
       zIndex={50}
     >
-      <Heading size="md" color="teal.500">
-        🚀 Github Explorer
-      </Heading>
+      <Link to="/">
+        <Heading size="md" color="teal.500">
+          🚀 Github Explorer
+        </Heading>
+      </Link>
     </Box>
   )
 }
