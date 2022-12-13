@@ -13,8 +13,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { BiGitBranch } from 'react-icons/bi'
 import { VscIssues } from 'react-icons/vsc'
-import { FaUser } from 'react-icons/fa'
 import Loading from '../components/common/Loading'
+import remarkGfm from 'remark-gfm'
 
 const baseUrl = 'https://api.github.com/repos'
 
@@ -66,29 +66,24 @@ export default function RepoDetail() {
       gap={2}
     >
       <Heading as="h2" size="md" color="teal.600">
-        <Link href={repoInfo.repoLink}>
-          Repository name: {repoInfo.repoName}
-        </Link>
+        <Link href={repoInfo.ownerLink}>{repoInfo.ownerName}</Link>
+        &nbsp;/&nbsp;
+        <Link href={repoInfo.repoLink}>{repoInfo.repoName}</Link>
       </Heading>
-      <Flex gap={1} align="center">
-        <Icon as={FaUser} size="8px" color="crimson" />
-        <Link href={repoInfo.ownerLink} color="teal.400">
-          Owner: {repoInfo.ownerName}
-        </Link>
-      </Flex>
-      <Flex gap={1} align="center">
-        <Icon as={VscIssues} size="12px" />
-        <Text fontSize="lg">{repoInfo.openIssues}</Text>
-      </Flex>
-      <Flex gap={1} align="center">
+      <Flex gap={2} align="center">
         <Icon as={BiGitBranch} size="12px" />
         <Text fontSize="lg">{repoInfo.defaultBranch}</Text>
+        <Icon as={VscIssues} size="12px" ml={5} />
+        <Text fontSize="lg">{repoInfo.openIssues}</Text>
       </Flex>
       <Heading as="h6" size="sm" color="teal.400" mt={5}>
         README.md contents:
       </Heading>
       <Card px={10} py={6} shadow="lg" border="1px solid #eee">
-        <ReactMarkdown children={repoInfo.readmeContent} />
+        <ReactMarkdown
+          children={repoInfo.readmeContent}
+          remarkPlugins={[remarkGfm]}
+        />
       </Card>
     </Container>
   )

@@ -74,7 +74,9 @@ export default function GithubRepoCard({
             {forks}
           </Text>
         </Flex>
-        <Text fontSize="sm">{description}</Text>
+        <Text fontSize="sm" color="blackAlpha.600">
+          {description}
+        </Text>
       </Box>
       <Text fontSize="sm" fontWeight="bold">
         Last updated at: {updatedAt}

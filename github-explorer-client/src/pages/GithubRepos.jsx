@@ -6,18 +6,19 @@ import Pagination from '../components/common/Pagination'
 import Loading from '../components/common/Loading'
 import Sort from '../components/common/Sort'
 
-const PER_PAGE = 9
+const PER_PAGE = 12
 
 export default function GithubRepos() {
   const [repos, setRepos] = useState([])
   const [totalRepos, setTotalRepos] = useState('--')
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [searchText, setSearchText] = useState('node')
 
   useEffect(() => {
     setIsLoading(true)
     fetch(
-      `https://api.github.com/search/repositories?q=react&per_page=${PER_PAGE}&page=${page}`
+      `https://api.github.com/search/repositories?q=${searchText}&per_page=${PER_PAGE}&page=${page}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -50,13 +51,13 @@ export default function GithubRepos() {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [page])
+  }, [page, searchText])
 
   return (
     <>
       <Container maxW="7xl" py={4} minH="85vh">
         <Flex gap={4}>
-          <Search />
+          <Search value={searchText} handleChange={setSearchText} />
           <Sort />
         </Flex>
         {isLoading ? (

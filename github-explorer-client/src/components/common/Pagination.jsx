@@ -12,7 +12,7 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
       bottom={0}
       bg="gray.100"
       borderTop="1px solid #DDD"
-      p={5}
+      p={2}
     >
       <IconButton
         aria-label="Previous"
@@ -20,7 +20,8 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
         isRound
         disabled={page === 1 || isLoading}
         onClick={() => setPage((prev) => prev - 1)}
-        colorScheme="blackAlpha"
+        colorScheme="teal"
+        size="xs"
       />
       <Heading size="xs">
         Page {page} of {totalRepos}
@@ -31,7 +32,8 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
         isRound
         onClick={() => setPage((prev) => prev + 1)}
         disabled={isLoading}
-        colorScheme="blackAlpha"
+        colorScheme="teal"
+        size="xs"
       />
     </Flex>
   )

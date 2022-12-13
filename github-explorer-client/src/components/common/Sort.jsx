@@ -11,7 +11,11 @@ import { AiOutlineSortAscending } from 'react-icons/ai'
 function Sort() {
   return (
     <Menu>
-      <MenuButton as={IconButton} icon={<AiOutlineSortAscending />}>
+      <MenuButton
+        as={IconButton}
+        icon={<AiOutlineSortAscending />}
+        color="teal.600"
+      >
         Sort By
       </MenuButton>
       <MenuList>
