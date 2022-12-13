@@ -7,6 +7,7 @@ import Loading from '../components/common/Loading'
 import Sort from '../components/common/Sort'
 import { get } from '../services/http'
 import { usePagination } from '../hooks/usePagination'
+import { GET_GITHUB_REPOS } from '../constants/routes'
 
 const PER_PAGE = 12,
   TIMER = 300
@@ -28,7 +29,7 @@ export default function GithubRepos() {
       ;(async () => {
         try {
           setIsLoading(true)
-          const { repos, totalRepoCount } = await get('/github-repositories', {
+          const { repos, totalRepoCount } = await get(GET_GITHUB_REPOS, {
             params: {
               q: `${searchText}`,
               ...sortParams,

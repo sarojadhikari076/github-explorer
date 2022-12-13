@@ -15,12 +15,13 @@ import { VscIssues } from 'react-icons/vsc'
 import Loading from '../components/common/Loading'
 import remarkGfm from 'remark-gfm'
 import { get } from '../services/http'
+import { GET_GITHUB_REPO } from '../constants/routes'
 
 export default function RepoDetail() {
   const { ownerName, repoName } = useParams(),
     [isLoading, setIsLoading] = useState(false),
     [repoInfo, setRepoInfo] = useState({}),
-    repoUrl = `/github-repositories/${ownerName}/${repoName}`
+    repoUrl = `${GET_GITHUB_REPO}/${ownerName}/${repoName}`
 
   useEffect(() => {
     setIsLoading(true)
