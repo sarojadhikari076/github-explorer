@@ -8,7 +8,8 @@ import Sort from '../components/common/Sort'
 import { get } from '../services/http'
 import { usePagination } from '../hooks/usePagination'
 
-const PER_PAGE = 12
+const PER_PAGE = 12,
+  TIMER = 300
 
 export default function GithubRepos() {
   const [repos, setRepos] = useState([]),
@@ -22,27 +23,31 @@ export default function GithubRepos() {
     })
 
   useEffect(() => {
-    setIsLoading(true)
-    ;(async () => {
-      try {
-        const { repos, totalRepoCount } = await get('/github-repositories', {
-          params: {
-            q: `${searchText}`,
-            ...sortParams,
-            per_page: PER_PAGE,
-            page: currentPage
-          }
-        })
-        setRepos(repos)
+    // Throttle the API request when user types on the search input
+    let timer = setTimeout(() => {
+      ;(async () => {
+        try {
+          setIsLoading(true)
+          const { repos, totalRepoCount } = await get('/github-repositories', {
+            params: {
+              q: `${searchText}`,
+              ...sortParams,
+              per_page: PER_PAGE,
+              page: currentPage
+            }
+          })
+          setRepos(repos)
 
-        // Get the total number of pages from total repo count
-        setTotalRepoPages(Math.floor(totalRepoCount / PER_PAGE))
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsLoading(false)
-      }
-    })()
+          // Get the total number of pages from total repo count
+          setTotalRepoPages(Math.floor(totalRepoCount / PER_PAGE))
+        } catch (error) {
+          console.log(error)
+        } finally {
+          setIsLoading(false)
+        }
+      })()
+    }, TIMER)
+    return () => clearTimeout(timer)
   }, [currentPage, searchText, sortParams])
 
   return (
