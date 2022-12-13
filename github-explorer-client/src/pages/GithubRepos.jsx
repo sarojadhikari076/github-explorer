@@ -15,7 +15,11 @@ export default function GithubRepos() {
     [totalRepoPages, setTotalRepoPages] = useState('--'),
     { currentPage, handleNextPage, handlePrevPage } = usePagination(1),
     [isLoading, setIsLoading] = useState(false),
-    [searchText, setSearchText] = useState('node')
+    [searchText, setSearchText] = useState('node'),
+    [sortParams, setSortParams] = useState({
+      sort: 'stars',
+      order: 'desc'
+    })
 
   useEffect(() => {
     setIsLoading(true)
@@ -23,7 +27,8 @@ export default function GithubRepos() {
       try {
         const { repos, totalRepoCount } = await get('/github-repositories', {
           params: {
-            q: searchText,
+            q: `${searchText}`,
+            ...sortParams,
             per_page: PER_PAGE,
             page: currentPage
           }
@@ -36,14 +41,14 @@ export default function GithubRepos() {
         setIsLoading(false)
       }
     })()
-  }, [currentPage, searchText])
+  }, [currentPage, searchText, sortParams])
 
   return (
     <>
       <Container maxW="7xl" py={4} minH="85vh">
         <Flex gap={4}>
           <Search value={searchText} handleChange={setSearchText} />
-          <Sort />
+          <Sort sortParams={sortParams} setSortParams={setSortParams} />
         </Flex>
         {isLoading ? (
           <Loading />
