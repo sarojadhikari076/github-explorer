@@ -34,6 +34,8 @@ export default function GithubRepos() {
           }
         })
         setRepos(repos)
+
+        // Get the total number of pages from total repo count
         setTotalRepoPages(Math.floor(totalRepoCount / PER_PAGE))
       } catch (error) {
         console.log(error)
