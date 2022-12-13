@@ -16,12 +16,17 @@ The app uses a node.js as a proxy server. Frontend requests data to the node.js 
 Clone the repository and run the following command:
 
 `yarn install`
+
 and then,
+
 `yarn dev:start`
 
 ### Running the client
+
 `cd github-explorer-client`
 Install the dependencies
+
 `npm install`
 Now run the app
+
 `npm start`
