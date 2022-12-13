@@ -24,9 +24,11 @@ and then,
 ### Running the client
 
 `cd github-explorer-client`
+
 Install the dependencies
 
 `npm install`
+
 Now run the app
 
 `npm start`
