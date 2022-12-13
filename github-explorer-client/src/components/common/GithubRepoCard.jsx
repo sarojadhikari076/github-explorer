@@ -39,22 +39,24 @@ export default function GithubRepoCard({
       >
         <Stack isInline align="center" spacing={2}>
           <Avatar name={author} src={avatarUrl} />
-          <Link to={`/${name}`}>
-            <Heading
-              as="span"
-              size="md"
-              noOfLines={1}
-              maxW={60}
-              color="teal.600"
-              textDecor="underline"
-            >
-              {name}
-            </Heading>
-          </Link>
+          <Box>
+            <Link to={`/repos/${author}/${name}`}>
+              <Heading
+                as="span"
+                size="md"
+                noOfLines={1}
+                maxW={60}
+                color="teal.600"
+                textDecor="underline"
+              >
+                {name}
+              </Heading>
+            </Link>
+          </Box>
         </Stack>
-        <Flex gap={1} align="center">
-          <Icon as={FaUser} size="12px" color="crimson" />
-          <Heading as="h3" size="sm">
+        <Flex gap={1} align="center" mt={2}>
+          <Icon as={FaUser} size="8px" color="crimson" />
+          <Heading as="h3" size="xs">
             {author}
           </Heading>
         </Flex>

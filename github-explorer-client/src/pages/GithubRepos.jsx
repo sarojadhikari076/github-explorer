@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container } from '@chakra-ui/react'
+import { Box, Container, Flex } from '@chakra-ui/react'
 import GithubRepoCard from '../components/common/GithubRepoCard'
 import Search from '../components/common/Search'
 import Pagination from '../components/common/Pagination'
 import Loading from '../components/common/Loading'
+import Sort from '../components/common/Sort'
 
 const PER_PAGE = 9
 
 export default function GithubRepos() {
   const [repos, setRepos] = useState([])
-  const [totalRepos, setTotalRepos] = useState(0)
+  const [totalRepos, setTotalRepos] = useState('--')
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -54,7 +55,10 @@ export default function GithubRepos() {
   return (
     <>
       <Container maxW="7xl" py={4} minH="85vh">
-        <Search />
+        <Flex gap={4}>
+          <Search />
+          <Sort />
+        </Flex>
         {isLoading ? (
           <Loading />
         ) : (

@@ -20,6 +20,7 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
         isRound
         disabled={page === 1 || isLoading}
         onClick={() => setPage((prev) => prev - 1)}
+        colorScheme="blackAlpha"
       />
       <Heading size="xs">
         Page {page} of {totalRepos}
@@ -30,6 +31,7 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
         isRound
         onClick={() => setPage((prev) => prev + 1)}
         disabled={isLoading}
+        colorScheme="blackAlpha"
       />
     </Flex>
   )

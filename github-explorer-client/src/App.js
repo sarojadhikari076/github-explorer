@@ -11,7 +11,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<GithubRepos />} />
-          <Route path="/:repoId" element={<RepoDetail />} />
+          <Route path="/repos/:ownerName/:repoName" element={<RepoDetail />} />
         </Routes>
       </Router>
     </Box>
