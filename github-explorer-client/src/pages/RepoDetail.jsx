@@ -7,7 +7,6 @@ import {
   Link,
   Text
 } from '@chakra-ui/react'
-import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -15,45 +14,28 @@ import { BiGitBranch } from 'react-icons/bi'
 import { VscIssues } from 'react-icons/vsc'
 import Loading from '../components/common/Loading'
 import remarkGfm from 'remark-gfm'
-
-const baseUrl = 'https://api.github.com/repos'
+import { get } from '../services/http'
 
 export default function RepoDetail() {
-  const { ownerName, repoName } = useParams()
-  const [isLoading, setIsLoading] = useState(false)
-  const [repoInfo, setRepoInfo] = useState({})
-  const repoUrl = `${baseUrl}/${ownerName}/${repoName}`
-  const readmeUrl = `${baseUrl}/${ownerName}/${repoName}/readme`
-
-  console.log({ ownerName, repoName })
+  const { ownerName, repoName } = useParams(),
+    [isLoading, setIsLoading] = useState(false),
+    [repoInfo, setRepoInfo] = useState({}),
+    repoUrl = `/github-repositories/${ownerName}/${repoName}`
 
   useEffect(() => {
+    setIsLoading(true)
     ;(async () => {
       try {
-        setIsLoading(true)
-        const data = await axios(repoUrl)
-        const readmeResponse = await axios(readmeUrl, {
-          headers: {
-            accept: 'application/vnd.github.raw'
-          }
-        })
+        const { repo } = await get(repoUrl)
 
-        setRepoInfo({
-          ownerName: data.data.owner.login,
-          ownerLink: data.data.owner.html_url,
-          repoName: data.data.name,
-          repoLink: data.data.html_url,
-          openIssues: data.data.open_issues,
-          defaultBranch: data.data.default_branch,
-          readmeContent: readmeResponse.data
-        })
+        setRepoInfo(repo)
       } catch (error) {
         console.log(error)
       } finally {
         setIsLoading(false)
       }
     })()
-  }, [readmeUrl, repoUrl])
+  }, [repoUrl])
 
   if (isLoading) return <Loading isLoading={isLoading} />
   return (

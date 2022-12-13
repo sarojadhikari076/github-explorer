@@ -2,7 +2,13 @@ import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import React from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
-export default function Pagination({ setPage, isLoading, page, totalRepos }) {
+export default function Pagination({
+  handleNext,
+  handlePrev,
+  isLoading,
+  currentPage,
+  totalRepoPages
+}) {
   return (
     <Flex
       gap={4}
@@ -18,20 +24,20 @@ export default function Pagination({ setPage, isLoading, page, totalRepos }) {
         aria-label="Previous"
         icon={<FaArrowLeft />}
         isRound
-        disabled={page === 1 || isLoading}
-        onClick={() => setPage((prev) => prev - 1)}
+        disabled={currentPage === 1 || isLoading}
+        onClick={handlePrev}
         colorScheme="teal"
         size="xs"
       />
       <Heading size="xs">
-        Page {page} of {totalRepos}
+        Page {currentPage} of {totalRepoPages}
       </Heading>
       <IconButton
         aria-label="Next"
         icon={<FaArrowRight />}
         isRound
-        onClick={() => setPage((prev) => prev + 1)}
-        disabled={isLoading}
+        onClick={handleNext}
+        disabled={isLoading || currentPage === totalRepoPages}
         colorScheme="teal"
         size="xs"
       />

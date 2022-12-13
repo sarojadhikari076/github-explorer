@@ -5,53 +5,38 @@ import Search from '../components/common/Search'
 import Pagination from '../components/common/Pagination'
 import Loading from '../components/common/Loading'
 import Sort from '../components/common/Sort'
+import { get } from '../services/http'
+import { usePagination } from '../hooks/usePagination'
 
 const PER_PAGE = 12
 
 export default function GithubRepos() {
-  const [repos, setRepos] = useState([])
-  const [totalRepos, setTotalRepos] = useState('--')
-  const [page, setPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [searchText, setSearchText] = useState('node')
+  const [repos, setRepos] = useState([]),
+    [totalRepoPages, setTotalRepoPages] = useState('--'),
+    { currentPage, handleNextPage, handlePrevPage } = usePagination(1),
+    [isLoading, setIsLoading] = useState(false),
+    [searchText, setSearchText] = useState('node')
 
   useEffect(() => {
     setIsLoading(true)
-    fetch(
-      `https://api.github.com/search/repositories?q=${searchText}&per_page=${PER_PAGE}&page=${page}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        let newRepos = []
-        for (const repo of data.items) {
-          const id = repo.id
-          const name = repo.name
-          const author = repo.owner.login
-          const avatarUrl = repo.owner.avatar_url
-          const stars = repo.stargazers_count
-          const watchers = repo.watchers_count
-          const forks = repo.forks_count
-          const description = repo.description
-          const updatedAt = repo.updated_at
-          newRepos.push({
-            id,
-            name,
-            author,
-            avatarUrl,
-            stars,
-            watchers,
-            forks,
-            description,
-            updatedAt
-          })
-        }
-        setRepos(newRepos)
-        setTotalRepos(Math.floor(data.total_count / PER_PAGE))
-      })
-      .finally(() => {
+    ;(async () => {
+      try {
+        const { repos, totalRepoCount } = await get('/github-repositories', {
+          params: {
+            q: searchText,
+            per_page: PER_PAGE,
+            page: currentPage
+          }
+        })
+        setRepos(repos)
+        setTotalRepoPages(Math.floor(totalRepoCount / PER_PAGE))
+      } catch (error) {
+        console.log(error)
+      } finally {
         setIsLoading(false)
-      })
-  }, [page, searchText])
+      }
+    })()
+  }, [currentPage, searchText])
 
   return (
     <>
@@ -76,10 +61,11 @@ export default function GithubRepos() {
         )}
       </Container>
       <Pagination
-        page={page}
-        setPage={setPage}
+        currentPage={currentPage}
+        handleNext={handleNextPage}
+        handlePrev={handlePrevPage}
         isLoading={isLoading}
-        totalRepos={totalRepos}
+        totalRepoPages={totalRepoPages}
       />
     </>
   )
